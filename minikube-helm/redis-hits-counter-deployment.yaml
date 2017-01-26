@@ -8,10 +8,11 @@ spec:
     metadata:
       labels:
         app: redis-hits-counter
+        tier: frontend
     spec:
       containers:
       - name: redis-hits-counter
-        image: dnabic/redis-hits-counter:v0.1.1
+        image: dnabic/redis-hits-counter:v0.1.2
         ports:
         - containerPort: 5000
           protocol: TCP
