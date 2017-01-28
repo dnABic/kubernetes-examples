@@ -4,15 +4,42 @@ metadata:
   name: redis-hits-counter
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: redis-hits-counter
+      tier: frontend
+  minReadySeconds: 10
   template:
     metadata:
       labels:
         app: redis-hits-counter
         tier: frontend
+        version: v0.1.2
     spec:
       containers:
       - name: redis-hits-counter
         image: dnabic/redis-hits-counter:v0.1.2
+        #imagePullPolicy: Always
+        env:
+        - name: ENVIRONMENT
+          value: staging
         ports:
-        - containerPort: 5000
+        - name: hits-counter
+          containerPort: 5000
           protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: hits-counter
+          initialDelaySeconds: 15
+          timeoutSeconds: 1
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /readiness
+            port: hits-counter
+          initialDelaySeconds: 20
+          timeoutSeconds: 5
+          periodSeconds: 5
+          successThreshold: 2
+          failureThreshold: 3
