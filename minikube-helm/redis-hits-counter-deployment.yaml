@@ -14,11 +14,11 @@ spec:
       labels:
         app: redis-hits-counter
         tier: frontend
-        version: v0.1.2
+        version: v0.1.3
     spec:
       containers:
       - name: redis-hits-counter
-        image: dnabic/redis-hits-counter:v0.1.2
+        image: dnabic/redis-hits-counter:v0.1.3
         #imagePullPolicy: Always
         env:
         - name: ENVIRONMENT
